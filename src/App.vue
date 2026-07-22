@@ -6,12 +6,12 @@
     <SearchBar @search="handleSearch" />
 
     <!-- Загрузка -->
-    <div v-if="loading">Загрузка...</div>
+    <AppLoader v-if="loading" />
 
     <!-- Ошибка -->
-    <div v-else-if="error" class="error">{{ error }}</div>
+    <AppError v-else-if="error" :message="error" @retry="handleRetry" />
 
-    <!-- Данные погоды (теперь через компонент) -->
+    <!-- Данные погоды -->
     <WeatherCard v-else-if="weather" :weather="weather" />
 
     <!-- Пустое состояние -->
@@ -28,6 +28,8 @@
 import { onMounted } from "vue";
 import SearchBar from "./components/SearchBar.vue";
 import WeatherCard from "./components/WeatherCard.vue";
+import AppLoader from "./components/AppLoader.vue";
+import AppError from "./components/AppError.vue";
 import { useWeather } from "@/composables/useWeather";
 import { useGeolocation } from "@/composables/useGeolocation";
 import { VERSION } from "@/version";
@@ -82,12 +84,6 @@ onMounted(async () => {
     text-align: center;
     color: #333;
     margin-bottom: 30px;
-  }
-
-  .error {
-    color: #e74c3c;
-    text-align: center;
-    padding: 20px;
   }
 
   .placeholder {
