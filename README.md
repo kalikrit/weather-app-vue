@@ -6,6 +6,8 @@
 
 Приложение для отображения текущей погоды с автоматическим определением местоположения и возможностью поиска по городам.
 
+**Деплой:** [https://kalikrit.github.io/weather-app-vue/](https://kalikrit.github.io/weather-app-vue/)
+
 ## Технологии
 
 - **Vue 3** (Composition API, `<script setup>`)
