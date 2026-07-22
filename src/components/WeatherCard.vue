@@ -21,7 +21,7 @@
       </div>
       <div class="detail-item">
         <span class="label">Ветер</span>
-        <span class="value">{{ weather.windSpeed }} км/ч</span>
+        <span class="value">{{ weather.windSpeed }} м/с</span>
       </div>
     </div>
   </div>

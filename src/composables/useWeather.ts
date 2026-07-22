@@ -15,7 +15,7 @@ export function useWeather() {
     temperature: Math.round(data.main.temp),
     feelsLike: Math.round(data.main.feels_like),
     humidity: data.main.humidity,
-    windSpeed: Math.round(data.wind.speed * 3.6),
+    windSpeed: Math.round(data.wind.speed * 10) / 10, // м/с с одним знаком после запятой
     description: data.weather[0]?.description || "",
     icon: data.weather[0]?.icon || "",
     cityName: city || data.name,
