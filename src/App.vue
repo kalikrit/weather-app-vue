@@ -2,23 +2,19 @@
   <div id="app">
     <h1>Погодное приложение</h1>
 
-    <!-- Компонент поиска -->
+    <!-- Поиск -->
     <SearchBar @search="handleSearch" />
 
-    <!-- Заглушка для отображения состояния -->
+    <!-- Загрузка -->
     <div v-if="loading">Загрузка...</div>
+
+    <!-- Ошибка -->
     <div v-else-if="error" class="error">{{ error }}</div>
-    <div v-else-if="weather" class="weather-info">
-      <h2>{{ weather.cityName }}</h2>
-      <p>Температура: {{ weather.temperature }}°C</p>
-      <p>Описание: {{ weather.description }}</p>
-      <p>Влажность: {{ weather.humidity }}%</p>
-      <p>Ветер: {{ weather.windSpeed }} км/ч</p>
-      <img
-        :src="`https://openweathermap.org/img/wn/${weather.icon}@2x.png`"
-        alt="иконка"
-      />
-    </div>
+
+    <!-- Данные погоды (теперь через компонент) -->
+    <WeatherCard v-else-if="weather" :weather="weather" />
+
+    <!-- Пустое состояние -->
     <div v-else class="placeholder">
       <p>Введите город или разрешите геолокацию</p>
     </div>
@@ -30,7 +26,8 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import SearchBar from "@/components/SearchBar.vue";
+import SearchBar from "./components/SearchBar.vue";
+import WeatherCard from "./components/WeatherCard.vue";
 import { useWeather } from "@/composables/useWeather";
 import { useGeolocation } from "@/composables/useGeolocation";
 import { VERSION } from "@/version";
@@ -53,7 +50,7 @@ const handleSearch = (city: string) => {
   fetchWeatherByCity(city);
 };
 
-// Повтор при ошибке (пока что просто перезапрос по координатам или Москве)
+// Повтор при ошибке
 const handleRetry = () => {
   resetError();
   if (coords.value) {
@@ -91,18 +88,6 @@ onMounted(async () => {
     color: #e74c3c;
     text-align: center;
     padding: 20px;
-  }
-
-  .weather-info {
-    text-align: center;
-    background: #f5f7fa;
-    border-radius: 12px;
-    padding: 20px;
-    margin-top: 20px;
-    img {
-      width: 80px;
-      height: 80px;
-    }
   }
 
   .placeholder {
