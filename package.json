@@ -39,5 +39,13 @@
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
+  },
+  "eslintConfig": {
+    "globals": {
+      "defineProps": "readonly",
+      "defineEmits": "readonly",
+      "defineExpose": "readonly",
+      "withDefaults": "readonly"
+    }
   }
 }
