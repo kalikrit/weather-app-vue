@@ -1,6 +1,12 @@
 <template>
   <div id="app">
-    <h1>Погодное приложение</h1>
+    <header class="app-header">
+      <div class="logo">
+        <span class="weather-icon">🌤️</span>
+        <h1>SkyVue</h1>
+      </div>
+      <p class="subtitle">Погода в реальном времени</p>
+    </header>
 
     <!-- Поиск -->
     <SearchBar @search="handleSearch" />
@@ -78,18 +84,61 @@ onMounted(async () => {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+  border-radius: 0;
 
-  h1 {
+  .app-header {
     text-align: center;
-    color: #333;
+    padding: 20px 0 30px;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
     margin-bottom: 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+
+      .weather-icon {
+        font-size: 42px;
+        animation: float 3s ease-in-out infinite;
+      }
+
+      h1 {
+        font-size: 40px;
+        font-weight: 800;
+        margin: 0;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        letter-spacing: -0.5px;
+      }
+    }
+
+    .subtitle {
+      margin: 5px 0 0;
+      color: #7f8c8d;
+      font-size: 13px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-weight: 300;
+    }
   }
 
   .placeholder {
     text-align: center;
     color: #999;
     padding: 40px 0;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 12px;
+    backdrop-filter: blur(5px);
   }
 
   .version {
@@ -97,6 +146,20 @@ onMounted(async () => {
     margin-top: 30px;
     font-size: 12px;
     color: #999;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 8px;
+    backdrop-filter: blur(5px);
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
   }
 }
 </style>
