@@ -10,6 +10,27 @@
       <div class="temperature">{{ weather.temperature }}°C</div>
     </div>
     <div class="description">{{ weather.description }}</div>
+
+    <!-- Блок с восходом/закатом -->
+    <div class="sun-info">
+      <div class="sun-item">
+        <span class="sun-icon">🌅</span>
+        <span class="sun-label">Восход</span>
+        <span class="sun-time">{{ formatTime(weather.sunrise) }}</span>
+      </div>
+      <div class="sun-item">
+        <span class="sun-icon">🌇</span>
+        <span class="sun-label">Закат</span>
+        <span class="sun-time">{{ formatTime(weather.sunset) }}</span>
+      </div>
+      <div class="sun-item">
+        <span class="sun-icon">⏳</span>
+        <span class="sun-label">День</span>
+        <span class="sun-time">{{ weather.dayLength }}</span>
+      </div>
+    </div>
+
+    <!-- Детали погоды -->
     <div class="details">
       <div class="detail-item">
         <span class="label">Ощущается как</span>
@@ -33,24 +54,30 @@ import type { WeatherData } from "@/types/weather";
 defineProps<{
   weather: WeatherData | null;
 }>();
+
+const formatTime = (timestamp: number): string => {
+  const date = new Date(timestamp * 1000);
+  return date.toLocaleTimeString("ru-RU", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};
 </script>
 
 <style scoped lang="scss">
 .weather-card {
   max-width: 400px;
-  margin: 20px auto 0;
+  margin: 0 auto;
   padding: 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #f5f7fa;
   border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
 
   .city-name {
-    font-size: 28px;
+    font-size: 24px;
     font-weight: bold;
-    margin-bottom: 5px;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    margin-bottom: 10px;
   }
 
   .main-info {
@@ -58,26 +85,55 @@ defineProps<{
     align-items: center;
     justify-content: center;
     gap: 10px;
-    margin: 10px 0;
+    margin-bottom: 10px;
 
     .weather-icon {
       width: 80px;
       height: 80px;
-      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
     }
 
     .temperature {
-      font-size: 56px;
+      font-size: 48px;
       font-weight: 300;
-      line-height: 1;
     }
   }
 
   .description {
-    font-size: 20px;
-    margin-bottom: 20px;
-    text-transform: capitalize;
-    opacity: 0.9;
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 15px;
+  }
+
+  .sun-info {
+    display: flex;
+    justify-content: space-around;
+    margin: 15px 0;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 12px;
+    gap: 10px;
+
+    .sun-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+
+      .sun-icon {
+        font-size: 24px;
+      }
+      .sun-label {
+        font-size: 11px;
+        color: #888;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .sun-time {
+        font-size: 16px;
+        font-weight: 500;
+        color: #333;
+      }
+    }
   }
 
   .details {
@@ -87,45 +143,26 @@ defineProps<{
     margin-top: 15px;
 
     .detail-item {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(4px);
-      padding: 12px 10px;
-      border-radius: 10px;
+      background: white;
+      padding: 10px;
+      border-radius: 8px;
       display: flex;
       flex-direction: column;
-      transition: transform 0.2s;
-
-      &:hover {
-        transform: translateY(-2px);
-      }
 
       .label {
         font-size: 12px;
-        opacity: 0.8;
-        margin-bottom: 4px;
+        color: #999;
       }
-
       .value {
-        font-size: 20px;
-        font-weight: 600;
+        font-size: 18px;
+        font-weight: 500;
       }
     }
   }
 
   @media (max-width: 480px) {
-    padding: 16px;
-
-    .city-name {
-      font-size: 22px;
-    }
-
-    .main-info .temperature {
-      font-size: 40px;
-    }
-
     .details {
       grid-template-columns: 1fr;
-      gap: 8px;
     }
   }
 }

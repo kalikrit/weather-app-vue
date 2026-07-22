@@ -6,6 +6,9 @@ export interface WeatherData {
   description: string;
   icon: string;
   cityName: string;
+  sunrise: number; // <-- добавляем
+  sunset: number; // <-- добавляем
+  dayLength: string; // <-- добавляем
 }
 
 export interface OpenWeatherResponse {
@@ -22,4 +25,8 @@ export interface OpenWeatherResponse {
     speed: number;
   };
   name: string;
+  sys: {
+    sunrise: number;
+    sunset: number;
+  };
 }

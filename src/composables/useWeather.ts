@@ -2,6 +2,13 @@ import { ref } from "vue";
 import { getWeatherByCoords, getWeatherByCity } from "@/services/weatherApi";
 import type { WeatherData, OpenWeatherResponse } from "@/types/weather";
 
+const formatDayLength = (sunrise: number, sunset: number): string => {
+  const diffSeconds = sunset - sunrise;
+  const hours = Math.floor(diffSeconds / 3600);
+  const minutes = Math.floor((diffSeconds % 3600) / 60);
+  return `${hours}ч ${minutes}мин`;
+};
+
 export function useWeather() {
   const weather = ref<WeatherData | null>(null);
   const loading = ref(false);
@@ -15,10 +22,13 @@ export function useWeather() {
     temperature: Math.round(data.main.temp),
     feelsLike: Math.round(data.main.feels_like),
     humidity: data.main.humidity,
-    windSpeed: Math.round(data.wind.speed * 10) / 10, // м/с с одним знаком после запятой
+    windSpeed: Math.round(data.wind.speed * 10) / 10,
     description: data.weather[0]?.description || "",
     icon: data.weather[0]?.icon || "",
     cityName: city || data.name,
+    sunrise: data.sys.sunrise,
+    sunset: data.sys.sunset,
+    dayLength: formatDayLength(data.sys.sunrise, data.sys.sunset),
   });
 
   const fetchWeatherByCoords = async (lat: number, lon: number) => {
